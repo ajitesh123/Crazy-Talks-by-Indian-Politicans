@@ -27,14 +27,14 @@ class Party(db.Model):
     __tablename__ = 'Party'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True)
-    part_symbol =  db.Column(db.String(180))
+    party_symbol =  db.Column(db.String(180))
 
 
     def format(self):
         return {
             'id': self.id,
             'name': self.name,
-            'part_symbol': self.part_symbol
+            'party_symbol': self.party_symbol
         }
 
 
