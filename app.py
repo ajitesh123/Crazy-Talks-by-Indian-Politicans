@@ -26,21 +26,29 @@ def get_home():
         'message': "Welcome to an API to fecth crazy things Indian politicians have said"
         })
 
-@app.route('/drinks')
-def get_drinks():
+@app.route('/quotes')
+def get_quotes():
     '''
-    Get drinks in the drink.short() data representation
+    Get quotes in a json format
     '''
-    drinks = Drink.query.all()
+    quotes = Quotes.query.all()
 
-    if len(drinks) == 0:
+    if len(quotes) == 0:
         abort(404)
 
-    formatted_drinks = [drink.format() for drink in drinks]
+    data = []
+    new_dict = {}
+
+    for quote in quotes:
+        new_dict["text"] = quote.text
+        new_dict["Politican"] = Politician.query.filter_by(id=quote.politician_id).all()[0].name
+        new_dict["Party"] = Party.query.filter_by(id=quote.party_id).all()[0].name
+        data.append(new_dict)
+        new_dict = {}
 
     return jsonify({
         'success': True,
-        'drinks': formatted_drinks
+        'quotes': data
         })
 
 
