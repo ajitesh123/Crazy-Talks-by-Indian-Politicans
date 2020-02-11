@@ -21,7 +21,10 @@ CORS(app)
 
 @app.route('/')
 def get_home():
-    return "Happy Starting Final Project!"
+    return jsonify({
+        'success': True,
+        'message': "Welcome to an API to fecth crazy things Indian politicians have said"
+        })
 
 @app.route('/drinks')
 def get_drinks():
