@@ -23,17 +23,49 @@ def setup_db(app, ENV=ENV):
     db.init_app(app)
 #No create all will be required, as we're using flask_migrate
 
-class Drink(db.Model):
-    __tablename__ = 'Drink'
+class Party(db.Model):
+    __tablename__ = 'Party'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), unique=True)
-    tagline =  db.Column(db.String(180), nullable=False)
+    name = db.Column(db.String(120), unique=True)
+    part_symbol =  db.Column(db.String(180))
 
     def format(self):
         return {
             'id': self.id,
-            'title': self.title,
-            'tagline': self.tagline
+            'name': self.name,
+            'part_symbol': self.part_symbol
+        }
+
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+class Politician(db.Model):
+    __tablename__ = 'Politician'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), unique=True)
+    image_link =  db.Column(db.String(180))
+    famous_posts = db.Column(db.String(500))
+    party_id = db.Column(db.Integer, db.ForeignKey('Party.id'), nullable=False)
+    party = db.relationship('Party', backref=db.backref('politicians', lazy=True))
+# plural (politicians) used in backref as party could have multiple politicians
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'image_link': self.image_link,
+            'famous_posts': self.famous_posts,
+            'party_id': self.party_id
         }
 
 
