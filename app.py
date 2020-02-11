@@ -4,7 +4,7 @@ from sqlalchemy import exc
 import json
 from flask_cors import CORS
 
-from models import setup_db, db, Party, Politician
+from models import setup_db, db, Party, Politician, Quotes
 from auth import AuthError, requires_auth
 
 # ------------------------------------------------------------
