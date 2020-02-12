@@ -132,6 +132,33 @@ def create_quotes():
         'quote': [new_quote.format()]
         })
 
+@app.route('/quotes/search', methods=['POST'])
+def search_quotes():
+    '''Get questions based on match with the search term'''
+    body = request.get_json()
+
+    search = body.get('searchTerm', None)
+
+    if search is None:
+        abort(400)
+
+    try:
+        selection = Quotes.query.filter(Quotes.text.ilike("%{}%".format(search))).all()
+
+        if len(selection) == 0:
+            abort(404)
+
+        formated_selection = [q.styled_format() for q in selection]
+        current_selection = paginate_list(request, formated_selection)
+
+        return jsonify({
+            'success': True,
+            'total_quotes': len(selection),
+            'current_quotes': current_selection
+            })
+    except:
+        abort(404)
+
 
 @app.route('/drinks/<int:drink_id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
