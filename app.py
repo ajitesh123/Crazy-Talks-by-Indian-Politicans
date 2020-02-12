@@ -160,56 +160,62 @@ def search_quotes():
         abort(404)
 
 
-@app.route('/drinks/<int:drink_id>', methods=['PATCH'])
-@requires_auth('patch:drinks')
-def change_detail(jwt, drink_id):
+@app.route('/quotes/<int:quote_id>', methods=['PATCH'])
+def change_detail(quote_id):
     '''
-    Change details of the drink in the table
+    Change details of the quotes in the table
     '''
     try:
-        drink = Drink.query.filter_by(id=drink_id).one_or_none()
+        quote = Quotes.query.filter_by(id=quote_id).one_or_none()
 
-# In case no such drink exists, then inform resource doesn't exist
-        if drink is None:
+# In case no such quote exists, then inform resource doesn't exist
+        if quote is None:
             return abort(404)
 
         body = request.get_json()
 
-        if 'title' in body:
-            drink.title = body['title']
+        if 'text' in body:
+            quote.text = body['text']
 
-        if 'recipe' in body:
-            drink.recipe = json.dumps(body['recipe'])
+        if 'topic' in body:
+            quote.topic = body['topic']
 
-        drink.update()
+        if 'party_id' in body:
+            quote.party_id = int(body['party_id'])
+
+        if 'politician_id' in body:
+            quote.politician_id = int(body['politician_id'])
+
+        quote.update()
 
         return jsonify({
             'success': True,
-            'drinks': [drink.long()]
+            'quote': [quote.styled_format()]
             })
+
     except:
         abort(422)
 
 
-@app.route('/drinks/<int:drink_id>', methods=['DELETE'])
-@requires_auth('delete:drinks')
-def delete_drink(jwt, drink_id):
+@app.route('/quotes/<int:quote_id>', methods=['DELETE'])
+def delete_drink(quote_id):
     '''
-    Delete a drink from the tablew
+    Delete a quote from the table
     '''
     try:
-        drink = Drink.query.filter_by(id=drink_id).one_or_none()
+        quote = Quotes.query.filter_by(id=quote_id).one_or_none()
 
-# In case no such drink exists, then inform resource doesn't exist
-        if drink is None:
+# In case no such quotes exists, then inform resource doesn't exist
+        if quote is None:
             return abort(404)
 
-        drink.delete()
+        quote.delete()
 
         return jsonify({
             'success': True,
-            'delete': drink_id
+            'delete': quote_id
             })
+
     except:
         abort(422)
 
