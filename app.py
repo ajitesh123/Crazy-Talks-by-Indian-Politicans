@@ -129,8 +129,47 @@ def create_quotes():
 
     return jsonify({
         'success': True,
-        'quote': [new_quote.format()]
+        'quote': [new_quote.styled_format()]
         })
+
+
+@app.route('/quick/quotes', methods=['POST'])
+def create_quotes_easy():
+    '''
+    Add a new quote to the repository in easy way
+    '''
+    body = request.get_json()
+
+    text = body['text']
+    topic = body['topic']
+
+    party_search = body['party']
+    selection = Party.search_by_name(party_search)
+    if len(selection)!=1:
+        abort(400)
+    else:
+        party_id = selection[0].id
+
+    politician_search = body['politician']
+    selection = Politician.search_by_name(politician_search)
+    if len(selection)!=1:
+        abort(400)
+    else:
+        politician_id = selection[0].id
+
+    new_quote = Quotes(
+                text=text,
+                topic=topic,
+                party_id=party_id,
+                politician_id=politician_id)
+
+    new_quote.insert()
+
+    return jsonify({
+        'success': True,
+        'quote': [new_quote.styled_format()]
+        })
+
 
 @app.route('/quotes/search', methods=['POST'])
 def search_quotes():

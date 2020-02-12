@@ -62,6 +62,9 @@ class Party(db.Model):
     def get_by_id(id):
         return Party.query.filter_by(id=id).first()
 
+    def search_by_name(search_term):
+        return Party.query.filter(Party.name.ilike("%{}%".format(search_term))).all()
+
 
 class Politician(db.Model):
     __tablename__ = 'Politician'
@@ -111,6 +114,8 @@ class Politician(db.Model):
     def politicians_by_parties(party_id):
         return Politician.query.filter_by(party_id=party_id).all()
 
+    def search_by_name(search_term):
+        return Politician.query.filter(Politician.name.ilike("%{}%".format(search_term))).all()
 
 class Quotes(db.Model):
     __tablename__ = 'Quotes'
