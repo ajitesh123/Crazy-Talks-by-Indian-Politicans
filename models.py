@@ -37,6 +37,15 @@ class Party(db.Model):
             'party_symbol': self.party_symbol
         }
 
+    def styled_format(self):
+        return {
+            'name': self.name,
+            'party_symbol': self.party_symbol,
+            'quotes': [q.text for q in Quotes.quotes_by_parties(self.id)],
+            'count_quotes': len(Quotes.quotes_by_parties(self.id)),
+            'politicians': [p.name for p in Politician.politicians_by_parties(self.id)],
+            'count_politicians': len(Politician.politicians_by_parties(self.id))
+        }
 
     def insert(self):
         db.session.add(self)
@@ -49,6 +58,9 @@ class Party(db.Model):
 
     def update(self):
         db.session.commit()
+
+    def get_by_id(id):
+        return Party.query.filter_by(id=id).first()
 
 
 class Politician(db.Model):
@@ -71,6 +83,15 @@ class Politician(db.Model):
             'party_id': self.party_id
         }
 
+    def styled_format(self):
+        return {
+            'name': self.name,
+            'famous_posts': self.famous_posts,
+            'image_link': self.image_link,
+            'party_name': Party.get_by_id(self.party_id).name,
+            'quotes': [q.text for q in Quotes.quotes_by_politician(self.id)],
+            'count_quotes': len(Quotes.quotes_by_politician(self.id))
+        }
 
     def insert(self):
         db.session.add(self)
@@ -83,6 +104,12 @@ class Politician(db.Model):
 
     def update(self):
         db.session.commit()
+
+    def get_by_id(id):
+        return Politician.query.filter_by(id=id).first()
+
+    def politicians_by_parties(party_id):
+        return Politician.query.filter_by(party_id=party_id).all()
 
 
 class Quotes(db.Model):
@@ -105,6 +132,15 @@ class Quotes(db.Model):
             'politician_id': self.politician_id
         }
 
+    def styled_format(self):
+        return {
+            'id': self.id,
+            'text': self.text,
+            'topic': self.topic,
+            'party_name': Party.get_by_id(self.party_id).name,
+            'politician_name': Politician.get_by_id(self.politician_id).name
+        }
+
 
     def insert(self):
         db.session.add(self)
@@ -117,3 +153,12 @@ class Quotes(db.Model):
 
     def update(self):
         db.session.commit()
+
+    def get_by_id(id):
+        return Quotes.query.filter_by(id=id).first()
+
+    def quotes_by_politician(politician_id):
+        return Quotes.query.filter_by(politician_id=politician_id).all()
+
+    def quotes_by_parties(party_id):
+        return Quotes.query.filter_by(party_id=party_id).all()

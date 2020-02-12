@@ -8,6 +8,23 @@ from models import setup_db, db, Party, Politician, Quotes
 from auth import AuthError, requires_auth
 
 # ------------------------------------------------------------
+#  Helper Functions
+# -------------------------------------------------------------
+
+LIST_PER_PAGE = 5
+
+
+def paginate_list(request, selection, LIST_PER_PAGE = 5):
+    '''Creates list of 5 quotes per page'''
+    page = request.args.get('page', 1, type = int)
+    start = (page-1) * LIST_PER_PAGE
+    end = start + LIST_PER_PAGE
+
+    current_list = selection[start:end]
+
+    return current_list
+
+# ------------------------------------------------------------
 #  App Configurartion
 # -------------------------------------------------------------
 
@@ -36,60 +53,83 @@ def get_quotes():
     if len(quotes) == 0:
         abort(404)
 
-    data = []
-    new_dict = {}
+    formatted_quotes = [q.styled_format() for q in quotes]
 
-    for quote in quotes:
-        new_dict["text"] = quote.text
-        new_dict["Politican"] = Politician.query.filter_by(id=quote.politician_id).all()[0].name
-        new_dict["Party"] = Party.query.filter_by(id=quote.party_id).all()[0].name
-        data.append(new_dict)
-        new_dict = {}
+    current_quotes = paginate_list(request, formatted_quotes)
 
     return jsonify({
         'success': True,
-        'quotes': data
+        'total_quotes': len(quotes),
+        'quotes': current_quotes
         })
 
 
-@app.route('/drinks-detail')
-@requires_auth('get:drinks-detail')
-def get_drink_detail(jwt):
+@app.route('/parties')
+def get_parties():
     '''
-    Fetch the long form representation of the drinks
+    Fetch details of political parties in json format
     '''
-    drinks = Drink.query.all()
+    parties = Party.query.all()
 
-    if len(drinks) == 0:
+    if len(parties) == 0:
         abort(404)
 
-    formatted_drinks = [drink.format() for drink in drinks]
+    formatted_parties = [party.styled_format() for party in parties]
+
+    current_parties = paginate_list(request, formatted_parties, 2)
 
     return jsonify({
         'success': True,
-        'drinks': formatted_drinks
+        'parties': current_parties,
+        'total_parties':len(parties)
         })
 
 
-@app.route('/drinks', methods=['POST'])
-@requires_auth('post:drinks')
-def create_detail(jwt):
+@app.route('/politicians')
+def get_politicians():
     '''
-    Add a new drink in the drinks table
+    Fetch details of politicians in json format
     '''
-    body = request.get_json()
-    new_title = body['title']
-    recipe_json = body['recipe']
+    politicians = Politician.query.all()
 
-    new_drink = Drink(
-                title=new_title,
-                recipe=json.dumps(recipe_json))
+    if len(politicians) == 0:
+        abort(404)
 
-    new_drink.insert()
+    formatted_politicians = [politician.styled_format() for politician in politicians]
+
+    current_politicians = paginate_list(request, formatted_politicians, 2)
 
     return jsonify({
         'success': True,
-        'drinks': [new_drink.long()]
+        'politicians': current_politicians,
+        'total_politicians':len(politicians)
+        })
+
+
+@app.route('/quotes', methods=['POST'])
+def create_quotes():
+    '''
+    Add a new quote to the repository
+    '''
+    body = request.get_json()
+
+    text = body['text']
+    topic = body['topic']
+    party_id = body['party_id']
+    politician_id = body['politician_id']
+
+
+    new_quote = Quotes(
+                text=text,
+                topic=topic,
+                party_id=party_id,
+                politician_id=politician_id)
+
+    new_quote.insert()
+
+    return jsonify({
+        'success': True,
+        'quote': [new_quote.format()]
         })
 
 
