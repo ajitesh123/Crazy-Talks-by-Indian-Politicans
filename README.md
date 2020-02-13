@@ -73,12 +73,12 @@ There isn't a limit to the number of requests an user can send.
 Use this URL to register to get auth token: https://xupler.auth0.com/authorize?audience=quote&response_type=token&client_id=e25ZEQCe0drveyMSsv96ojqEKL4G2Q6f&redirect_uri=http://localhost:8080/login-results
 
 To register as [Admin] use following details:
-- [email]: admin@quote.com
-- [password]: test@123
+- Email: admin@quote.com
+- Password: test@123
 
 To register as [User] use following details:
-- [email]: creator@quote.com
-- [password]: test@123
+- Email: creator@quote.com
+- Password: test@123
 
 ## User
 As a user, you can make GET requests to fetch quotes, parties, and politicians. No authorization is required to make this request.
