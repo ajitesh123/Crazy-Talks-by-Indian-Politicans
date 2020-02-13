@@ -107,7 +107,8 @@ def get_politicians():
 
 
 @app.route('/quotes', methods=['POST'])
-def create_quotes():
+@requires_auth('post:quotes')
+def create_quotes(jwt):
     '''
     Add a new quote to the repository
     '''
@@ -134,7 +135,8 @@ def create_quotes():
 
 
 @app.route('/quick/quotes', methods=['POST'])
-def create_quotes_easy():
+@requires_auth('post:quotes')
+def create_quotes_easy(jwt):
     '''
     Add a new quote to the repository in easy way
     '''
@@ -200,7 +202,8 @@ def search_quotes():
 
 
 @app.route('/quotes/<int:quote_id>', methods=['PATCH'])
-def change_detail(quote_id):
+@requires_auth('patch:quotes')
+def change_detail(jwt, quote_id):
     '''
     Change details of the quotes in the table
     '''
@@ -237,7 +240,8 @@ def change_detail(quote_id):
 
 
 @app.route('/quotes/<int:quote_id>', methods=['DELETE'])
-def delete_drink(quote_id):
+@requires_auth('delete:quotes')
+def delete_drink(jwt, quote_id):
     '''
     Delete a quote from the table
     '''
