@@ -1,9 +1,9 @@
 
-## Motivation for project
+# Motivation for project
 
 This API is my attempt to keep a record of funny and crazy thing Indians politicians say. First, I believe existence of public repository might make politicians restrict what they say. Second, I see this project helping common person keep tab of crazt things said by politicians and help them accountable. At the least or most importantly (depends how you see it), this project will you get some fun out of Indian politics.
 
-## Getting Started
+# Getting Started
 ### Virtual Environment Setup
 Initialize and activate a virtualenv:
 
@@ -19,10 +19,17 @@ Use Pip to install all of the required packages we selected within the `requirem
 ```
 $ pip install -r requirements.txt
 ```
+### Tech Stack
 
-## API Documentation
+- [Flask](http://flask.pocoo.org/)  is a lightweight backend microservices framework. Flask is required to handle requests and responses.
 
-Refer POSTMAN for API documentation - https://web.postman.co/collections/8444799-1811f415-33c4-4417-85c7-dc57d349c96f
+- [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM we'll use handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py.
+
+- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension we'll use to handle cross origin requests from our frontend server.
+
+# API Documentation
+
+[Refer POSTMAN for API documentation] - https://web.postman.co/collections/8444799-1811f415-33c4-4417-85c7-dc57d349c96f
 
 This flask based API will fetch you crazy things politicians talk.
 
@@ -39,14 +46,6 @@ POST request for creating a new quote would require the "Creator" role's permiss
 
 #### Admin Role
 Editing (PATCH) and deleting (DELETE) a quote would require the "Admin" role's permissions.
-
-### Tech Stack
-
-- [Flask](http://flask.pocoo.org/)  is a lightweight backend microservices framework. Flask is required to handle requests and responses.
-
-- [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM we'll use handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py.
-
-- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension we'll use to handle cross origin requests from our frontend server.
 
 ### Error Handling
 
