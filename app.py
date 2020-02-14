@@ -214,7 +214,7 @@ def create_app(test_config=None):
 
     # In case no such quote exists, then inform resource doesn't exist
             if quote is None:
-                return abort(404)
+                abort(404)
 
             body = request.get_json()
 

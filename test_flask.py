@@ -82,12 +82,25 @@ class QuoteTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['total_quotes'])
 
+    def paginated_quotes_fail(self):
+        res = self.client().get('/quotes?page=1000')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+
     def test_parties(self):
         res = self.client().get('/parties')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
 
+    def paginated_parties_fail(self):
+        res = self.client().get('/parties?page=1000')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
 
     def test_politician(self):
         res = self.client().get('/politicians')
@@ -125,7 +138,7 @@ class QuoteTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
 
-    def test_new_quotes_fail(self):
+    def test_new_quotes_access_fail(self):
         post_data = {
                     "text": "Aisa idhar aloo daalo udhar sona niklega",
                     "topic": "UP Election",
@@ -154,87 +167,76 @@ class QuoteTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
 
 
-    # def test_search_question(self):
-    #     new_question = Question(
-    #                             question = "What is the capital of Assam",
-    #                             answer = "Itanagar",
-    #                             difficulty = 3,
-    #                             category = "3"
-    #                             )
-    #     new_question.insert()
-    #     post_data = {
-    #                 "searchTerm": "What",
-    #                 }
-    #
-    #     res = self.client().post('/questions/search', json=post_data)
-    #     data = json.loads(res.data)
-    #
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertTrue(data['total_questions'])
-    #     self.assertTrue(data['current_category'])
-    #
-    # def test_search_question_fail(self):
-    #     post_data = {"a": "b"}
-    #
-    #     res = self.client().post('/questions/search', json=post_data)
-    #     data = json.loads(res.data)
-    #
-    #     self.assertEqual(res.status_code, 400)
-    #     self.assertEqual(data['success'], False)
-    #
-    # def test_category_wise_question(self):
-    #     res = self.client().get('/categories/1/questions')
-    #     data = json.loads(res.data)
-    #
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertTrue(data['total_questions'])
-    #     self.assertTrue(data['current_category'])
-    #
-    # def test_category_wise_question_fail(self):
-    #     #testing for category id that doesn't exist
-    #     res = self.client().get('/categories/8/questions')
-    #     data = json.loads(res.data)
-    #
-    #     self.assertEqual(res.status_code, 404)
-    #     self.assertEqual(data['success'], False)
-    #     self.assertTrue(data['message'])
-    #
-    # def test_start_quiz(self):
-    #     question_repo = [question.format() for question in Question.query.all()]
-    #     question = random.choice(question_repo)
-    #
-    #     previous_questions = [question["id"],]
-    #     quiz_category = question["category"]
-    #
-    #     post_data = {
-    #                 "previous_questions": previous_questions,
-    #                 "quiz_category": {"id": quiz_category}
-    #                 }
-    #
-    #     res = self.client().post('/quizzes', json=post_data)
-    #     data = json.loads(res.data)
-    #
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertTrue(data['question'])
-    #
-    # def test_start_quiz_fail(self):
-    #     question_repo = [question.format() for question in Question.query.all()]
-    #     question = random.choice(question_repo)
-    #
-    #     previous_questions = [question["id"],]
-    #     quiz_category = question["category"]
-    #
-    #     post_data = {
-    #                 "quiz_category": {"id": quiz_category}
-    #                 }
-    #     #Testing with invlalid json
-    #
-    #     res = self.client().post('/quizzes', json=post_data)
-    #     data = json.loads(res.data)
-    #
-    #     self.assertEqual(res.status_code, 422)
-    #     self.assertTrue(data['message'])
+    def test_search_quotes(self):
+        new_quote = Quotes(
+                            text="Dummy question is just for search",
+                            topic="UP Election",
+                            party_id=1,
+                            politician_id=1)
+        new_quote.insert()
+
+        post_data = {
+                    "searchTerm": "search",
+                    }
+
+        res = self.client().post('/quotes/search', json=post_data)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+
+    def test_search_quotes_fail(self):
+        post_data = {"a": "b"}
+
+        res = self.client().post('/quotes/search', json=post_data)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+
+    def test_edit_quotes(self):
+        patch_data = {
+                    "text": "changed text",
+                    "topic": "UP Election",
+                    "party_id": 1,
+                    "politician_id": 1
+                    }
+
+        res = self.client().patch('/quotes/1', json=patch_data, headers={'Authorization': admin_auth_token})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    def test_edit_quotes_access_fail(self):
+        patch_data = {
+                    "text": "changed text",
+                    "topic": "UP Election",
+                    "party_id": 1,
+                    "politician_id": 1
+                    }
+
+        res = self.client().patch('/quotes/1', json=patch_data)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_edit_quotes_fail(self):
+        patch_data = {
+                    "a": "changed text",
+                    "b": "UP Election",
+                    "c": 1,
+                    "d": 1
+                    }
+
+        res = self.client().patch('/quotes/100', json=patch_data, headers={'Authorization': admin_auth_token})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
