@@ -7,16 +7,20 @@ db = SQLAlchemy()
 # We would change the ENV variable during development and production
 ENV = 'prod'
 
+#Remote database URI and local URI
+#Make this function usable in test_flask
+if ENV == 'dev':
+    database_path = 'postgresql://ajitesh@localhost:5432/mockdb'
+    debug_mode = True
+else:
+    database_path = 'postgres://bsmfjjpvmspejy:8037411620a3fed176d4f8843eb2a308fac61d07863277e73d45dacc7df96a97@ec2-35-168-54-239.compute-1.amazonaws.com:5432/d3d5h5hckmgn9d'
+    debug_mode = False
 
-def setup_db(app, ENV=ENV):
+def setup_db(app, database_path=database_path):
     '''Binds a flask application and a SQLAlchemy service'''
-    if ENV == 'dev':
-        app.debug = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ajitesh@localhost:5432/mockdb'
-    else:
-        app.debug = False
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bsmfjjpvmspejy:8037411620a3fed176d4f8843eb2a308fac61d07863277e73d45dacc7df96a97@ec2-35-168-54-239.compute-1.amazonaws.com:5432/d3d5h5hckmgn9d'
 
+    app.debug = debug_mode
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
 

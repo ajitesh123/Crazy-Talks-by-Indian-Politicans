@@ -7,22 +7,6 @@ from flask_cors import CORS
 from models import setup_db, db, Party, Politician, Quotes
 from auth import AuthError, requires_auth
 
-# ------------------------------------------------------------
-#  Helper Functions
-# -------------------------------------------------------------
-
-LIST_PER_PAGE = 5
-
-
-def paginate_list(request, selection, LIST_PER_PAGE = 5):
-    '''Creates list of 5 quotes per page'''
-    page = request.args.get('page', 1, type = int)
-    start = (page-1) * LIST_PER_PAGE
-    end = start + LIST_PER_PAGE
-
-    current_list = selection[start:end]
-
-    return current_list
 
 # ------------------------------------------------------------
 #  App Configurartion
@@ -31,6 +15,24 @@ def create_app(test_config=None):
     app = Flask(__name__)
     setup_db(app)
     CORS(app)
+
+# ------------------------------------------------------------
+#  Helper Functions
+# -------------------------------------------------------------
+
+    LIST_PER_PAGE = 5
+
+
+    def paginate_list(request, selection, LIST_PER_PAGE = 5):
+        '''Creates list of 5 quotes per page'''
+        page = request.args.get('page', 1, type = int)
+        start = (page-1) * LIST_PER_PAGE
+        end = start + LIST_PER_PAGE
+
+        current_list = selection[start:end]
+
+        return current_list
+
 
 # ------------------------------------------------------------
 #  Controllers
