@@ -11,7 +11,8 @@ from auth import AuthError, requires_auth
 # ------------------------------------------------------------
 #  App Configurartion
 # -------------------------------------------------------------
-
+# Moving creation of FLASK object helpes in creating multiple instance; could be used for testing.
+# Read more - https://flask.palletsprojects.com/en/1.1.x/patterns/appfactories/
 def create_app(test_config=None):
     app = Flask(__name__)
     setup_db(app)
