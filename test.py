@@ -18,9 +18,9 @@ app = create_app()
 # Auth Token for Testing
 # -------------------------------------------------------------------
 
-admin_auth_token = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1rUkJNekUwUVRCRlFqYzNPRGt3TjBJd1JUWkJNa1pCUlVFNFJUTXhNVFZFTXpKRE1VSTRRdyJ9.eyJpc3MiOiJodHRwczovL3h1cGxlci5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWUzNzNlOTVlMjc1ZWUwZTc5NzlmMmIxIiwiYXVkIjoicXVvdGUiLCJpYXQiOjE1ODE3MTIyODAsImV4cCI6MTU4MTcxOTQ4MCwiYXpwIjoiZTI1WkVRQ2UwZHJ2ZXlNU3N2OTZvanFFS0w0RzJRNmYiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTpxdW90ZXMiLCJwYXRjaDpxdW90ZXMiLCJwb3N0OnF1b3RlcyJdfQ.Xaqet37JqvZOo57N8dolCTrz0jXxYWIdqPLWZjn9mxvr3n6NoWZaJfDGj9Gx8Q87Zg_J-HjZPwsOl2Ai9MHt2Tci1eBAYSlZE2buFtOC60g5gDyTVQQ-9-36wF64G7VCWlThmUcw4-1utEo_WQo0kYhZ9xNCdK2-cZ0C187AsyOWe9ZklsNtKMgNUvTmwpKIoUJer5bS_tUwHqb5KXmSS9qtjWKChf89AWIDsbl3k-3IMeT0Fjedo64Wven6HhwQ87J5JjfREJ9OihhIA4DFzeJvHSz6a4iIZgqiQQEOFgDuF-_AOI6Q5BcguTTS5mK_SPNGSqMayKj1EcjbD-56eg'
+admin_auth_token = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1rUkJNekUwUVRCRlFqYzNPRGt3TjBJd1JUWkJNa1pCUlVFNFJUTXhNVFZFTXpKRE1VSTRRdyJ9.eyJpc3MiOiJodHRwczovL3h1cGxlci5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWUzNzNlOTVlMjc1ZWUwZTc5NzlmMmIxIiwiYXVkIjoicXVvdGUiLCJpYXQiOjE1ODE3MTkzMTEsImV4cCI6MTU4MTcyNjUxMSwiYXpwIjoiZTI1WkVRQ2UwZHJ2ZXlNU3N2OTZvanFFS0w0RzJRNmYiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTpxdW90ZXMiLCJwYXRjaDpxdW90ZXMiLCJwb3N0OnF1b3RlcyJdfQ.Bwj5SyemUxKz3URA48orkimI5bmHg5c1RQgrLvEcuozFt1Uq4fPpkXG5D94JD6nMX11Uf9eCRcFQAE-joXBut6V5r2pgH2frPsbjJygwIrcC2if3oz0yL0la4cNU0wSOxg7V6dDdk0TZ58Qj9D8crPBEQYcnaxkJMh_1uQDeeNQpDC4VNqUy-RNzOXbNx_7qxH_Y_dUv42MpCO6YFEIfVomOxKY0miyk9EPo9OQzhHBs-BXe1_rkPbCec0R78lmfH0FYqdHgWYMzadIAnx9NZgmO9uFpUMPa6_wwUW3MSvVPATHz4LevFOhXdzCY9_d4dcHLgUYpqy45ytnT1Ku6DQ'
 
-creator_auth_token = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1rUkJNekUwUVRCRlFqYzNPRGt3TjBJd1JUWkJNa1pCUlVFNFJUTXhNVFZFTXpKRE1VSTRRdyJ9.eyJpc3MiOiJodHRwczovL3h1cGxlci5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWUzNGEyMmM3MzY3ZGEwZTc3OGE4MjZiIiwiYXVkIjoicXVvdGUiLCJpYXQiOjE1ODE3MTMyMDQsImV4cCI6MTU4MTcyMDQwNCwiYXpwIjoiZTI1WkVRQ2UwZHJ2ZXlNU3N2OTZvanFFS0w0RzJRNmYiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbInBvc3Q6cXVvdGVzIl19.tuuMmjjzt9h19sYocIsUSPNwqn3bvHR3szepOzssYlsAAWWUIlbVIFEQoXLTaxxY6UFEqtELKTwHXeM8kkv7Q9BykyQKLTdevp-NXjG-eYjFhMBOxqzytrSKiVV5Dddw5y8M-MW6M94IXwm19rpx43Z-LdoOby3Zv0ieanaAQxdtnMLMn-8Fmrq0ZiqqDW8nB98kMPo1gWC-8ywvN2MI3zHKqir2njf55oW5_w0LPzP2mJoBG8-239zveSBZMit5x9Zp2sSrT128SqfnDqlQ2sPM877yjVItHoCgRu0Z5tV4_MocWNMhMoo3o5HRH4tHNykVElvmy4MgxbnNpuC5-A'
+creator_auth_token = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1rUkJNekUwUVRCRlFqYzNPRGt3TjBJd1JUWkJNa1pCUlVFNFJUTXhNVFZFTXpKRE1VSTRRdyJ9.eyJpc3MiOiJodHRwczovL3h1cGxlci5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWUzNGEyMmM3MzY3ZGEwZTc3OGE4MjZiIiwiYXVkIjoicXVvdGUiLCJpYXQiOjE1ODE3MTkyNDYsImV4cCI6MTU4MTcyNjQ0NiwiYXpwIjoiZTI1WkVRQ2UwZHJ2ZXlNU3N2OTZvanFFS0w0RzJRNmYiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbInBvc3Q6cXVvdGVzIl19.CmBlPdazpfsT6sUsiDom8k5_6vJgGfA8zRP1dhn9zNGsK9FhH4hHjnieCtRNDdmdnWqjj5PwnfRYHX35okcZTqXAZzedLSqjIIhjX0M9Vzqg567QAXVY2KQHmo78T_roa5WY-wYK1vxeul5q0k5OxaglVH2SoNpiAViaQNlFaJZYhYiNx4FKi8_Y7yYmUS9IIk9JUtL5z7-7Pu1Kmhn2BSg5YxsmnuxU3DkKnBe1KSXSS8XADqbawzWqg60xr4Ce2iIeyKnzuLUsESq9t53QWFoXXU2F9FqYFcGZdOfkFEBuUmTYn-J5yKVYfSU7kvPYV0fF6nRmYRE_q4gx5keQrw'
 
 # -------------------------------------------------------------------
 # General Test
@@ -82,7 +82,7 @@ class QuoteTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['total_quotes'])
 
-    def paginated_quotes_fail(self):
+    def test_paginated_quotes_fail(self):
         res = self.client().get('/quotes?page=1000')
         data = json.loads(res.data)
 
@@ -95,7 +95,7 @@ class QuoteTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
 
-    def paginated_parties_fail(self):
+    def test_paginated_parties_fail(self):
         res = self.client().get('/parties?page=1000')
         data = json.loads(res.data)
 
@@ -108,6 +108,13 @@ class QuoteTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['total_politicians'])
+
+    def test_paginated_politicians_fail(self):
+        res = self.client().get('/politicians?page=1000')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
 
     def test_delete_quote_fail(self):
         new_quote = Quotes(
@@ -166,7 +173,6 @@ class QuoteTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
 
-
     def test_search_quotes(self):
         new_quote = Quotes(
                             text="Dummy question is just for search",
@@ -184,7 +190,6 @@ class QuoteTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-
 
     def test_search_quotes_fail(self):
         post_data = {"a": "b"}
@@ -236,7 +241,6 @@ class QuoteTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'], False)
-
 
 # Make the tests conveniently executable
 if __name__ == "__main__":

@@ -31,6 +31,8 @@ $ pip install -r requirements.txt
 
 [Refer POSTMAN for API documentation] - https://web.postman.co/collections/8444799-1811f415-33c4-4417-85c7-dc57d349c96f
 
+[POSTMAN Collection for API testing] - https://www.getpostman.com/collections/2db5d0edf70524c6f906
+
 This flask based API will fetch you crazy things politicians talk.
 
 No permission is required for GET request. POST request for creating a new question would require the "Creator" role's permission. Editing (PATCH) and deleting (DELETE) a question would require the "Admin" role's permissions.

@@ -11,6 +11,7 @@ from auth import AuthError, requires_auth
 # ------------------------------------------------------------
 #  App Configurartion
 # -------------------------------------------------------------
+
 def create_app(test_config=None):
     app = Flask(__name__)
     setup_db(app)
@@ -22,10 +23,9 @@ def create_app(test_config=None):
 
     LIST_PER_PAGE = 5
 
-
-    def paginate_list(request, selection, LIST_PER_PAGE = 5):
+    def paginate_list(request, selection, LIST_PER_PAGE=5):
         '''Creates list of 5 quotes per page'''
-        page = request.args.get('page', 1, type = int)
+        page = request.args.get('page', 1, type=int)
         start = (page-1) * LIST_PER_PAGE
         end = start + LIST_PER_PAGE
 
@@ -52,19 +52,18 @@ def create_app(test_config=None):
         '''
         quotes = Quotes.query.all()
 
-        if len(quotes) == 0:
-            abort(404)
-
         formatted_quotes = [q.styled_format() for q in quotes]
 
         current_quotes = paginate_list(request, formatted_quotes)
+
+        if len(current_quotes) == 0:
+            abort(404)
 
         return jsonify({
             'success': True,
             'total_quotes': len(quotes),
             'quotes': current_quotes
             })
-
 
     @app.route('/parties')
     def get_parties():
@@ -73,19 +72,18 @@ def create_app(test_config=None):
         '''
         parties = Party.query.all()
 
-        if len(parties) == 0:
-            abort(404)
-
         formatted_parties = [party.styled_format() for party in parties]
 
         current_parties = paginate_list(request, formatted_parties, 2)
 
+        if len(current_parties) == 0:
+            abort(404)
+
         return jsonify({
             'success': True,
             'parties': current_parties,
-            'total_parties':len(parties)
+            'total_parties': len(parties)
             })
-
 
     @app.route('/politicians')
     def get_politicians():
@@ -94,19 +92,19 @@ def create_app(test_config=None):
         '''
         politicians = Politician.query.all()
 
-        if len(politicians) == 0:
-            abort(404)
-
-        formatted_politicians = [politician.styled_format() for politician in politicians]
+        formatted_politicians = [politician.styled_format()
+                                 for politician in politicians]
 
         current_politicians = paginate_list(request, formatted_politicians, 2)
+
+        if len(current_politicians) == 0:
+            abort(404)
 
         return jsonify({
             'success': True,
             'politicians': current_politicians,
-            'total_politicians':len(politicians)
+            'total_politicians': len(politicians)
             })
-
 
     @app.route('/quotes', methods=['POST'])
     @requires_auth('post:quotes')
@@ -121,7 +119,6 @@ def create_app(test_config=None):
         party_id = body['party_id']
         politician_id = body['politician_id']
 
-
         new_quote = Quotes(
                     text=text,
                     topic=topic,
@@ -134,7 +131,6 @@ def create_app(test_config=None):
             'success': True,
             'quote': [new_quote.styled_format()]
             })
-
 
     @app.route('/quick/quotes', methods=['POST'])
     @requires_auth('post:quotes')
@@ -149,14 +145,14 @@ def create_app(test_config=None):
 
         party_search = body['party']
         selection = Party.search_by_name(party_search)
-        if len(selection)!=1:
+        if len(selection) != 1:
             abort(400)
         else:
             party_id = selection[0].id
 
         politician_search = body['politician']
         selection = Politician.search_by_name(politician_search)
-        if len(selection)!=1:
+        if len(selection) != 1:
             abort(400)
         else:
             politician_id = selection[0].id
@@ -173,7 +169,6 @@ def create_app(test_config=None):
             'success': True,
             'quote': [new_quote.styled_format()]
             })
-
 
     @app.route('/quotes/search', methods=['POST'])
     def search_quotes():
@@ -202,7 +197,6 @@ def create_app(test_config=None):
         except:
             abort(404)
 
-
     @app.route('/quotes/<int:quote_id>', methods=['PATCH'])
     @requires_auth('patch:quotes')
     def change_detail(jwt, quote_id):
@@ -212,7 +206,7 @@ def create_app(test_config=None):
         try:
             quote = Quotes.query.filter_by(id=quote_id).one_or_none()
 
-    # In case no such quote exists, then inform resource doesn't exist
+# In case no such quote exists, then inform resource doesn't exist
             if quote is None:
                 abort(404)
 
@@ -240,7 +234,6 @@ def create_app(test_config=None):
         except:
             abort(422)
 
-
     @app.route('/quotes/<int:quote_id>', methods=['DELETE'])
     @requires_auth('delete:quotes')
     def delete_drink(jwt, quote_id):
@@ -263,12 +256,9 @@ def create_app(test_config=None):
 
         except:
             abort(422)
-
-
-    # ---------------------------------------------------
-    #  Error Handler
-    # ----------------------------------------------------
-
+# ---------------------------------------------------
+#  Error Handler
+# ----------------------------------------------------
 
     @app.errorhandler(422)
     def unprocessable(error):
@@ -278,7 +268,6 @@ def create_app(test_config=None):
                         "message": "unprocessable"
                         }), 422
 
-
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({
@@ -286,7 +275,6 @@ def create_app(test_config=None):
                         'error': 404,
                         'message': "Not found"
                         }), 404
-
 
     @app.errorhandler(400)
     def not_found(error):
@@ -296,7 +284,6 @@ def create_app(test_config=None):
                         'message': "Bad request"
                         }), 400
 
-
     @app.errorhandler(422)
     def not_found(error):
         return jsonify({
@@ -305,7 +292,6 @@ def create_app(test_config=None):
                         'message': "Unprocessable"
                         }), 422
 
-
     @app.errorhandler(405)
     def not_found(error):
         return jsonify({
@@ -313,7 +299,6 @@ def create_app(test_config=None):
                         'error': 405,
                         'message': "Method now allowed"
                         }), 405
-
 
     @app.errorhandler(AuthError)
     def Auth_Error(error):
